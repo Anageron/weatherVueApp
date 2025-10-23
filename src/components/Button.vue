@@ -11,6 +11,7 @@
 <style scoped>
   .button {
     display: flex;
+    width: 100%;
     gap: 9px;
     align-items: center;
     border: none;
@@ -22,7 +23,7 @@
     font-weight: 600;
     color: var(--color-primary);
     cursor: pointer;
-    max-height: 100vh;
+    justify-content: center;
   }
 
   .button:hover {

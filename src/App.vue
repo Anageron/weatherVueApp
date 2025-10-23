@@ -4,7 +4,7 @@ import CitySelect from "./components/CitySelect.vue";
 import Stat from "./components/Stat.vue";
 
 const data = {
-  label: "Важность",
+  label: "Влажность",
   stat: "90%",
 }
 
