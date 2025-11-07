@@ -1,45 +1,46 @@
 <script setup>
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import Button from "./Button.vue";
 import IconNavigation from "./Icons/IconNavigation.vue";
 import Input from "./Input.vue";
+import { cityProvide } from "../constants";
 
-const emit = defineEmits({
-  selectCity(payload) {
-    return payload;
-  },
-});
+const city = inject(cityProvide);
+const inputValue = ref(city.value);
 
 let isEdited = ref(false);
 
-
 function select() {
   isEdited.value = false;
-  console.log(isEdited.value)
-  emit('selectCity', 'London');
+  city.value = inputValue.value;
 }
 
 function edit() {
   isEdited.value = true;
 }
-
 </script>
 
 <template>
   <div class="city-select">
-    <Button v-show="!isEdited" @click="edit">
-      <IconNavigation />
-      Изменить город
-    </Button>
-    <div v-show="isEdited" class="city-input">
-      <Input placeholder="Введите город" />
-      <Button @click="select">Сохранить</Button>
-    </div>
+    <Transition name="fade" mode="out-in">
+      <Button v-if="!isEdited" @click="edit">
+        <IconNavigation />
+        Изменить город
+      </Button>
+      <div v-else class="city-input">
+        <Input
+          placeholder="Введите город"
+          v-model="inputValue"
+          v-focus
+          @keyup.enter="select"
+        />
+        <Button @click="select">Сохранить</Button>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <style scoped>
-
 .city-select {
   width: 420px;
 }
@@ -47,5 +48,15 @@ function edit() {
 .city-input {
   display: flex;
   gap: 12px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
